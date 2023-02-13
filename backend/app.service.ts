@@ -36,3 +36,12 @@ export const updateSatellitesData = (satellites: ISatellite[]): void => {
     throw new Error(ResponseMessages.UPDATE_DATA_ERROR)
   }
 }
+
+export const addSatellite = async (newSatellite: ISatellite): Promise<void> => {
+  const existingSatellite = await getSatelliteById(newSatellite.id)
+  if (existingSatellite) {
+    throw new Error(`Satellite "${newSatellite.id}" ${ResponseMessages.SATELLITE_ALREADY_EXISTS}`)
+  }
+  const satellites = await getSatellitesData()
+  updateSatellitesData([...satellites, newSatellite])
+}

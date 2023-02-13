@@ -2,14 +2,21 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { ResponseMessages } from './utils'
-import { getSatelliteById, getSatellitesData, updateSatellitesData, updateSatelliteStatus } from './app.service'
+import { type ISatellite } from './data'
+import {
+  addSatellite,
+  getSatelliteById,
+  getSatellitesData,
+  updateSatellitesData,
+  updateSatelliteStatus
+} from './app.service'
 
 dotenv.config({ path: '.env.local' })
 const app = express()
 
 app.use(cors())
 app.get('/', (req, res) => {
-  res.status(404).json({ message: ResponseMessages.PAGE_NOT_FOUND })
+  res.status(404).json({ message: ResponseMessages.FORBIDDEN })
 })
 app.get('/satellites', (req, res) => {
   getSatellitesData()
@@ -21,19 +28,28 @@ app.get('/satellites', (req, res) => {
     })
 })
 
-app.post('/satellite', (req, res) => {
-  res.send('Hello, World!')
+app.post('/satellites', (req, res) => {
+  try {
+    const newSatellite = req.body as ISatellite
+    addSatellite(newSatellite).then(
+      (satellite) => {
+        res.status(200).send({ message: ResponseMessages.SUCCESS_ADD })
+      }
+    ).catch((error) => {
+      res.status(500).send({ message: error })
+    })
+  } catch (error) {
+    res.status(400).send({ message: error })
+  }
 })
 
-app.get('/satellite/:id', (req, res) => {
+app.get('/satellites/:id', (req, res) => {
   getSatelliteById(req.params.id)
     .then((satellite) => {
       if (satellite) {
         return res.status(200).json(satellite)
       } else {
-        return res.status(404).json({
-          message: 'Satellite not found'
-        })
+        return res.status(404).json({ message: ResponseMessages.NOT_FOUND })
       }
     })
     .catch((error) => {
@@ -43,7 +59,7 @@ app.get('/satellite/:id', (req, res) => {
     })
 })
 
-app.put('/satellite/:id/status', (req, res) => {
+app.put('/satellites/:id/status', (req, res) => {
   getSatelliteById(req.params.id)
     .then(async satellite => {
       const updatedSatellite = updateSatelliteStatus(satellite)
@@ -54,7 +70,7 @@ app.put('/satellite/:id/status', (req, res) => {
         })
     })
     .catch(error => {
-      res.status(404).send({ error })
+      res.status(404).send({ message: error })
     })
 })
 
