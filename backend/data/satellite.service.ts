@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { type ISatellite } from './satellite.interface'
-import * as fs from 'fs'
+import fs from 'fs'
 
 const fakeSatellitesData = (): ISatellite[] => {
   const satellites: ISatellite[] = []
