@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { ResponseMessages } from './utils'
-import { getSatelliteById, getSatellitesData } from './app.service'
+import { getSatelliteById, getSatellitesData, updateSatellitesData, updateSatelliteStatus } from './app.service'
 
 dotenv.config({ path: '.env.local' })
 const app = express()
@@ -43,8 +43,19 @@ app.get('/satellite/:id', (req, res) => {
     })
 })
 
-app.put('/satellite', (req, res) => {
-  res.send('Hello, World!')
+app.put('/satellite/:id/status', (req, res) => {
+  getSatelliteById(req.params.id)
+    .then(async satellite => {
+      const updatedSatellite = updateSatelliteStatus(satellite)
+      await getSatellitesData()
+        .then(satellites => {
+          updateSatellitesData([...satellites.filter((stl) => stl.id !== satellite.id), updatedSatellite])
+          res.send(updatedSatellite)
+        })
+    })
+    .catch(error => {
+      res.status(404).send({ error })
+    })
 })
 
 const port = process.env.PORT || 3000

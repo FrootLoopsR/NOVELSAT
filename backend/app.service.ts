@@ -21,3 +21,18 @@ export const getSatelliteById = async (satelliteId: string): Promise<ISatellite>
     throw new Error(ResponseMessages.NOT_FOUND)
   }
 }
+
+export const updateSatelliteStatus = (satellite: ISatellite): ISatellite => {
+  return {
+    ...satellite,
+    status: satellite.status === 'active' ? 'inactive' : 'active'
+  }
+}
+
+export const updateSatellitesData = (satellites: ISatellite[]): void => {
+  try {
+    fs.writeFileSync('satellites.json', JSON.stringify(satellites), 'utf-8')
+  } catch (error) {
+    throw new Error(ResponseMessages.UPDATE_DATA_ERROR)
+  }
+}

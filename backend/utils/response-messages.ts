@@ -4,7 +4,7 @@ export const enum ResponseMessages {
   SUCCESS_ADD = 'Satellite has been added successfully',
   SUCCESS_UPDATE = 'Satellite has been update successfully',
   FAIL_ADD = 'Failed to add satellite',
-  FAIL_UPDATE = 'Failed to update satellite',
+  UPDATE_DATA_ERROR = 'Failed to update satellite',
   INTERNAL_ERROR = 'Internal Server Error',
   GET_DATA_ERROR = 'Error Getting Satellite Data',
   NOT_FOUND = 'Resource was not found'
