@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { type ISatellite } from './satellite.interface'
 import fs from 'fs'
 
-const fakeSatellitesData = (): ISatellite[] => {
+export const fakeSatellitesData = (): ISatellite[] => {
   const satellites: ISatellite[] = []
   const generatedIds = new Set()
 
@@ -32,7 +32,7 @@ const fakeSatellitesData = (): ISatellite[] => {
   return satellites
 }
 
-const createSatelliteDataJson = (satellitesData: ISatellite[]): void => {
+export const createSatelliteDataJson = (satellitesData: ISatellite[]): void => {
   fs.writeFile('satellites.json', JSON.stringify(satellitesData), (err) => {
     if (err) {
       console.error(err)

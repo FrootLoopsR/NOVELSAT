@@ -21,10 +21,10 @@ app.get('/', (req, res) => {
 app.get('/satellites', (req, res) => {
   getSatellitesData()
     .then((satellites) => {
-      res.status(200).send(satellites)
+      res.status(200).json(satellites)
     })
     .catch(error => {
-      res.status(500).send({ message: error })
+      res.status(500).json({ message: error })
     })
 })
 
@@ -33,13 +33,13 @@ app.post('/satellites', (req, res) => {
     const newSatellite = req.body as ISatellite
     addSatellite(newSatellite).then(
       (satellite) => {
-        res.status(200).send({ message: ResponseMessages.SUCCESS_ADD })
+        res.status(200).json({ message: ResponseMessages.SUCCESS_ADD })
       }
     ).catch((error) => {
-      res.status(500).send({ message: error })
+      res.status(500).json({ message: error })
     })
   } catch (error) {
-    res.status(400).send({ message: error })
+    res.status(400).json({ message: error })
   }
 })
 
@@ -70,7 +70,7 @@ app.put('/satellites/:id/status', (req, res) => {
         })
     })
     .catch(error => {
-      res.status(404).send({ message: error })
+      res.status(404).json({ message: error })
     })
 })
 
