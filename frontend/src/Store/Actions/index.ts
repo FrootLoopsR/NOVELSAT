@@ -3,7 +3,7 @@ import { type ISatellite } from '../../Interfaces'
 
 interface IUpdateSatellite {
   type: Actions.UPDATE
-  payload: string
+  payload: ISatellite[]
 }
 
 interface IAddSatellite {

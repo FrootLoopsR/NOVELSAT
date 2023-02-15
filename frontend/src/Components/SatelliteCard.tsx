@@ -44,6 +44,7 @@ const Card = styled.div`
   border-radius: 5px;
   background-color: #fff;
   border: 1px solid black;
+  max-width: 500px;
 `
 
 const CardBody = styled.div`
@@ -71,14 +72,14 @@ const PropertyListItem = styled.li`
 const Button = styled.button`
   color: black;
   background-color: transparent;
-  border: 2px solid blue;
+  border: 1px solid darkblue;
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background-color: lightblue;
-    color: #fff;
+    background-color: gray;
+    font-weight: bold;
   }
 `

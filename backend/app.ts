@@ -60,8 +60,12 @@ app.get(`${PREFIX}/satellites/:id`, (req, res) => {
 
 app.put(`${PREFIX}/satellites/:id/status`, (req, res) => {
   const satelliteId = req.params.id
-  updateSatelliteStatus(satelliteId).then(() => {
-    return res.status(200).json({ message: ResponseMessages.UPDATE_DATA_SUCCESS })
+  updateSatelliteStatus(satelliteId).then(async () => {
+    return await getSatellitesData().then((satellites) => {
+      return res.status(200).json({ message: ResponseMessages.UPDATE_DATA_SUCCESS, updatedList: satellites })
+    }).catch(() => {
+      return res.status(500).json({ message: ResponseMessages.INTERNAL_SERVER_ERROR })
+    })
   }).catch((error) => {
     if (error.message === ResponseMessages.NOT_FOUND) {
       return res.status(404).json({ message: ResponseMessages.UPDATE_DATA_ERROR })

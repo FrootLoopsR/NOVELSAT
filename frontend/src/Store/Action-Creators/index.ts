@@ -7,8 +7,8 @@ import { type ISatellite } from '../../Interfaces'
 export const updateSatellite = (satelliteId: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/v1/satellites/${satelliteId}/status`) // Replace with your API endpoint
-      const satelliteList = response.data // Assuming the API returns the satellite list as an array
+      const response = await axios.put(`http://localhost:3001/api/v1/satellites/${satelliteId}/status`)
+      const satelliteList = response.data.updatedList
 
       dispatch({
         type: Actions.GET_LIST,
@@ -16,7 +16,6 @@ export const updateSatellite = (satelliteId: string) => {
       })
     } catch (error) {
       console.error('Failed to get satellite list:', error)
-      // You can dispatch an error action here if needed
     }
   }
 }
