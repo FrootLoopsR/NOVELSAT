@@ -37,7 +37,7 @@ export const createSatelliteDataJson = (satellitesData: ISatellite[]): void => {
     if (err) {
       console.error(err)
     } else {
-      console.log('Satellites data saved to satellites.json')
+      console.log('Satellites Data saved to satellites.json')
     }
   })
 }

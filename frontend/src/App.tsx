@@ -1,11 +1,12 @@
-import React from 'react';
+import React from 'react'
+import SatelliteCardList from './Components/SatelliteCardList'
 
-function App() {
+const App = (): JSX.Element => {
   return (
-      <div>
-
-      </div>
-  );
+        <div>
+            <SatelliteCardList/>
+        </div>
+  )
 }
 
-export default App;
+export default App

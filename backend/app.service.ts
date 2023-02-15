@@ -1,6 +1,6 @@
 import fs from 'fs'
-import { ResponseMessages } from './utils'
-import { type ISatellite } from './data'
+import { ResponseMessages } from './Utils'
+import { type ISatellite } from './Data'
 
 export const getSatellitesData = async (): Promise<ISatellite[]> => {
   try {

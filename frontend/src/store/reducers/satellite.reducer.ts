@@ -1,3 +1,0 @@
-const satelliteReducer = (state, action) => {
-
-}

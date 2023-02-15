@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import { ResponseMessages } from './utils'
-import { type ISatellite } from './data'
+import { ResponseMessages } from './Utils'
+import { type ISatellite } from './Data'
 import {
   addSatellite,
   getSatelliteById,
@@ -11,14 +11,16 @@ import {
   updateSatelliteStatus
 } from './app.service'
 
+const PREFIX = '/api/v1'
+
 dotenv.config({ path: '.env.local' })
 const app = express()
 
 app.use(cors())
-app.get('/', (req, res) => {
+app.get(`/${PREFIX}`, (req, res) => {
   res.status(404).json({ message: ResponseMessages.FORBIDDEN })
 })
-app.get('/satellites', (req, res) => {
+app.get(`/${PREFIX}/satellites`, (req, res) => {
   getSatellitesData()
     .then((satellites) => {
       res.status(200).json(satellites)
@@ -28,7 +30,7 @@ app.get('/satellites', (req, res) => {
     })
 })
 
-app.post('/satellites', (req, res) => {
+app.post(`/${PREFIX}/satellites`, (req, res) => {
   try {
     const newSatellite = req.body as ISatellite
     addSatellite(newSatellite).then(
@@ -43,7 +45,7 @@ app.post('/satellites', (req, res) => {
   }
 })
 
-app.get('/satellites/:id', (req, res) => {
+app.get(`/${PREFIX}/satellites/:id`, (req, res) => {
   getSatelliteById(req.params.id)
     .then((satellite) => {
       if (satellite) {
@@ -59,7 +61,7 @@ app.get('/satellites/:id', (req, res) => {
     })
 })
 
-app.put('/satellites/:id/status', (req, res) => {
+app.put(`/${PREFIX}/satellites/:id/status`, (req, res) => {
   getSatelliteById(req.params.id)
     .then(async satellite => {
       const updatedSatellite = updateSatelliteStatus(satellite)
