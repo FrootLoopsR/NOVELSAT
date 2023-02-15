@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
-import { satelliteReducer } from './satellite.reducer'
+import satelliteReducer from './satellite.reducer'
 
-export type { IState } from './satellite.reducer'
-export const SatelliteReducers = combineReducers({
+export * from './satellite.reducer'
+const reducers = combineReducers({
   satellite: satelliteReducer
 })
 
-export default SatelliteReducers
+export default reducers
 
-export type RootState = ReturnType<typeof SatelliteReducers>
+export type RootState = ReturnType<typeof reducers>

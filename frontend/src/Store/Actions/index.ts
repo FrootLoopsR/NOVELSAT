@@ -1,5 +1,5 @@
 import { type Actions } from '../Action-Types'
-import { type ISatellite } from '../../Interfaces/satellite.interface'
+import { type ISatellite } from '../../Interfaces'
 
 interface IUpdateSatellite {
   type: Actions.UPDATE
@@ -21,4 +21,9 @@ interface IGetSatelliteList {
   payload: ISatellite[]
 }
 
-export type IAction = IUpdateSatellite | IAddSatellite | IGetSatelliteById | IGetSatelliteList
+export interface ISetErrorAction {
+  type: Actions.SET_ERROR
+  error: string
+}
+
+export type IAction = IUpdateSatellite | IAddSatellite | IGetSatelliteById | IGetSatelliteList | ISetErrorAction

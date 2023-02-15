@@ -2,7 +2,15 @@ import { faker } from '@faker-js/faker'
 import { type ISatellite } from './satellite.interface'
 import fs from 'fs'
 
-export const fakeSatellitesData = (): ISatellite[] => {
+export const createSatelliteDataJson = async (satellitesData: ISatellite[], filePath: string): Promise<void> => {
+  try {
+    await fs.promises.writeFile(filePath, JSON.stringify(satellitesData))
+  } catch (error) {
+    throw new Error('Failed to save satellites data.')
+  }
+}
+
+export const fakeSatellitesData = async (filePath: string): Promise<void> => {
   const satellites: ISatellite[] = []
   const generatedIds = new Set()
 
@@ -24,20 +32,10 @@ export const fakeSatellitesData = (): ISatellite[] => {
         longitude: parseInt(faker.address.longitude(90, -90, 4), 10)
       },
       temperature: faker.datatype.number({ min: 10, max: 99 }),
-      status: faker.helpers.arrayElement(['active', 'inactive'])
+      status: faker.datatype.boolean()
     }
     satellites.push(satellitesData)
   }
-  console.log(satellites)
-  return satellites
-}
 
-export const createSatelliteDataJson = (satellitesData: ISatellite[]): void => {
-  fs.writeFile('satellites.json', JSON.stringify(satellitesData), (err) => {
-    if (err) {
-      console.error(err)
-    } else {
-      console.log('Satellites Data saved to satellites.json')
-    }
-  })
+  await createSatelliteDataJson(satellites, filePath)
 }

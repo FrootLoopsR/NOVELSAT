@@ -6,5 +6,5 @@ export interface ISatellite {
     longitude: number
   }
   temperature: number
-  status: string
+  status: boolean
 }

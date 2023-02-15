@@ -1,33 +1,40 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { type IState } from '../Store/Reducers'
-import { getSatelliteList } from '../Store/Action-Creators'
-import { Actions } from '../Store/Action-Types'
 import SatelliteCard from './SatelliteCard'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../Store'
+import { type RootState } from '../Store/Reducers'
+import styled from 'styled-components'
 
 const SatelliteCardList = (): JSX.Element => {
   const dispatch = useDispatch()
-  const satelliteList = useSelector((state: IState) => state.satelliteList)
+  const satelliteList = useSelector((state: RootState) => state.satellite)
+  const { getSatelliteList } = bindActionCreators(actionCreators, dispatch)
 
   useEffect(() => {
-    const fetchSatelliteListData = (): void => {
-      const data = getSatelliteList()
-      dispatch({ type: Actions.GET_LIST, payload: data })
-    }
-    fetchSatelliteListData()
+    getSatelliteList()
   }, [dispatch])
 
   return (
-        <div className="container">
-            <div className="row">
-                {satelliteList.map((satellite) => (
-                    <div className="col-sm-4" key={satellite.id}>
-                        <SatelliteCard satellite={satellite}/>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <SatelliteCardListContainer>
+            {satelliteList?.satelliteList.map((satellite) => (
+                <SatelliteCardWrapper key={satellite.id}>
+                    <SatelliteCard satellite={satellite}/>
+                </SatelliteCardWrapper>
+            ))}
+        </SatelliteCardListContainer>
   )
 }
 
 export default SatelliteCardList
+
+const SatelliteCardListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`
+
+const SatelliteCardWrapper = styled.div`
+  flex-basis: calc(33.33% - 10px);
+  margin-bottom: 20px;
+`
